@@ -12,41 +12,80 @@ import CircularProgress, {
 
 const Timer = () => {
   const [timerActive, setTimerActive] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(100);
+  const [timeRemainingText, setTimeRemainingText] = useState("");
 
-  function _onPressButton() {
-    alert("You tapped the button!");
+  const [timerId, setTimerId] = useState<any>(null);
+
+  function start() {
+    if (timeRemaining == 0) {
+      reset();
+    } else {
+      tick();
+    }
   }
+
+  function pause() {
+    setTimerActive(false);
+    setPaused(true);
+
+    if (timerId != null) {
+      window.clearInterval(timerId);
+      setTimerId(null);
+    }
+  }
+
+  function reset() {
+    pause();
+    setTimeRemaining(100);
+    tick();
+  }
+
+  function tick() {
+    setTimerActive(true);
+    let id = window.setInterval(function () {
+      if (0 >= timeRemaining) {
+        pause();
+        return;
+      }
+      setTimeRemainingText("" + timeRemaining);
+      setTimeRemaining((t) => t - 1);
+      console.log(timeRemaining);
+    }, 1000);
+    setTimerId(id);
+  }
+
+  const handleOnClick = () => {
+    if (timerActive) {
+      pause();
+      return;
+    }
+    start();
+  };
 
   function CircularProgressBar() {
     return (
       <View>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            setTimerActive(true);
-          }}
-        >
+        <TouchableWithoutFeedback onPress={handleOnClick} onLongPress={reset}>
           <View style={styles.timerContainer}>
             <CircularProgress
-              value={timerActive ? 0 : 100}
+              value={timeRemaining}
               radius={120}
               maxValue={100}
-              initialValue={timerActive ? 100 : 0}
+              initialValue={
+                timerActive ? timeRemaining + 1 : paused ? timeRemaining : 0
+              }
               activeStrokeColor={"white"}
               inActiveStrokeColor={"black"}
               activeStrokeWidth={15}
               inActiveStrokeWidth={15}
               showProgressValue={false}
-              duration={timerActive ? 1000 : undefined}
-              onAnimationComplete={() =>
-                timerActive ? setTimerActive(false) : null
-              }
             />
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
-          onPress={() => {
-            setTimerActive(true);
-          }}
+          onPress={handleOnClick}
           style={{ position: "absolute" }}
         >
           <View style={styles.playContainer}>

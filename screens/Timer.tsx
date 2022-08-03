@@ -20,13 +20,13 @@ const Timer = () => {
 
   function start() {
     if (timeRemaining == 0) {
-      reset();
+      resetTimer();
     } else {
       tick();
     }
   }
 
-  function pause() {
+  function pauseTimer() {
     setTimerActive(false);
     setPaused(true);
 
@@ -36,29 +36,28 @@ const Timer = () => {
     }
   }
 
-  function reset() {
-    pause();
+  const resetTimer = () => {
+    pauseTimer();
+    setPaused(false);
     setTimeRemaining(100);
-    tick();
-  }
+  };
 
   function tick() {
     setTimerActive(true);
     let id = window.setInterval(function () {
       if (0 >= timeRemaining) {
-        pause();
+        pauseTimer();
         return;
       }
       setTimeRemainingText("" + timeRemaining);
       setTimeRemaining((t) => t - 1);
-      console.log(timeRemaining);
     }, 1000);
     setTimerId(id);
   }
 
   const handleOnClick = () => {
     if (timerActive) {
-      pause();
+      pauseTimer();
       return;
     }
     start();
@@ -67,7 +66,10 @@ const Timer = () => {
   function CircularProgressBar() {
     return (
       <View>
-        <TouchableWithoutFeedback onPress={handleOnClick} onLongPress={reset}>
+        <TouchableWithoutFeedback
+          onPress={handleOnClick}
+          onLongPress={resetTimer}
+        >
           <View style={styles.timerContainer}>
             <CircularProgress
               value={timeRemaining}
@@ -86,6 +88,7 @@ const Timer = () => {
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           onPress={handleOnClick}
+          onLongPress={resetTimer}
           style={{ position: "absolute" }}
         >
           <View style={styles.playContainer}>

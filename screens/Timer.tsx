@@ -1,6 +1,14 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useState } from "react";
-import CircularProgress from "react-native-circular-progress-indicator";
+import CircularProgress, {
+  CircularProgressBase,
+} from "react-native-circular-progress-indicator";
 
 const Timer = () => {
   const [timerActive, setTimerActive] = useState(false);
@@ -10,45 +18,46 @@ const Timer = () => {
   }
 
   function CircularProgressBar() {
-    if (!timerActive)
-      return (
-        <View>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              setTimerActive(true);
-            }}
-          >
-            <View>
-              <CircularProgress
-                value={10}
-                radius={120}
-                maxValue={10}
-                initialValue={10}
-                activeStrokeColor={"white"}
-                inActiveStrokeColor={"black"}
-                activeStrokeWidth={15}
-                inActiveStrokeWidth={15}
-                showProgressValue={false}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      );
     return (
       <View>
-        <CircularProgress
-          value={0}
-          radius={120}
-          maxValue={10}
-          initialValue={10}
-          activeStrokeColor={"white"}
-          inActiveStrokeColor={"black"}
-          activeStrokeWidth={15}
-          inActiveStrokeWidth={15}
-          showProgressValue={false}
-          duration={10000}
-          onAnimationComplete={() => setTimerActive(false)}
-        />
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setTimerActive(true);
+          }}
+        >
+          <View style={styles.timerContainer}>
+            <CircularProgress
+              value={timerActive ? 0 : 100}
+              radius={120}
+              maxValue={100}
+              initialValue={timerActive ? 100 : 0}
+              activeStrokeColor={"white"}
+              inActiveStrokeColor={"black"}
+              activeStrokeWidth={15}
+              inActiveStrokeWidth={15}
+              showProgressValue={false}
+              duration={timerActive ? 1000 : undefined}
+              onAnimationComplete={() =>
+                timerActive ? setTimerActive(false) : null
+              }
+            />
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setTimerActive(true);
+          }}
+          style={{ position: "absolute" }}
+        >
+          <View style={styles.playContainer}>
+            {!timerActive && (
+              <Image
+                source={require("../assets/controller-play.png")}
+                style={styles.playButton}
+              />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
@@ -61,15 +70,24 @@ const Timer = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "blue",
-    width: "100%",
-    height: "100%",
+  timerContainer: {
+    transform: [{ scaleX: -1 }],
+  },
+
+  playButton: {
+    width: 100,
+    height: 100,
+  },
+
+  playContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: "center",
     alignItems: "center",
   },
-
-  inner: { backgroundColor: "blue", width: "100%", height: "100%" },
 });
 
 export default Timer;

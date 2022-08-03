@@ -19,17 +19,19 @@ enum Modes {
 const Timer = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(3);
+  const [timeRemaining, setTimeRemaining] = useState(100);
   const [timeRemainingText, setTimeRemainingText] = useState(
     getTimeRemainingText()
   );
   const [mode, setMode] = useState(Modes.POMODORO);
-  const [indicators, setIndicators] = useState<ReactElement[]>([]);
+  const [indicators, setIndicators] = useState<ReactElement[]>(
+    getProgressIndicators()
+  );
   const [pomodorosCompleted, setPomodorosCompleted] = useState(0);
 
   const [timerId, setTimerId] = useState<any>(null);
 
-  function updateProgressIndicators() {
+  function getProgressIndicators() {
     let indicators: ReactElement[] = [];
 
     for (let i = 0; i < 8; i++) {
@@ -56,14 +58,14 @@ const Timer = () => {
       }
     }
 
-    setIndicators(indicators);
+    return indicators;
   }
 
   function getNextMode() {
     if (mode != Modes.POMODORO) return Modes.POMODORO;
 
     setPomodorosCompleted((i) => i + 1);
-    updateProgressIndicators();
+    setIndicators(getProgressIndicators());
 
     if (pomodorosCompleted % 4 == 0 && pomodorosCompleted != 0)
       return Modes.LONG_BREAK;
@@ -123,17 +125,14 @@ const Timer = () => {
 
   const resetTimer = () => {
     pauseTimer();
-    setPaused(true);
-    setTimeRemaining(3);
+    setPaused(false);
+    setTimeRemaining(100);
   };
 
   function CircularProgressBar() {
     return (
       <View>
-        <TouchableWithoutFeedback
-          onPress={handleOnClick}
-          onLongPress={resetTimer}
-        >
+        <TouchableWithoutFeedback>
           <View style={styles.timerContainer}>
             <CircularProgress
               value={timeRemaining}
@@ -173,7 +172,7 @@ const Timer = () => {
       <CircularProgressBar />
       <View style={styles.indicatorContainer}>{indicators}</View>
       <Text style={styles.timerText}>
-        {Modes[mode]} - {timeRemainingText}
+        {Modes[mode].replace("_", " ")} - {timeRemainingText}
       </Text>
     </View>
   );

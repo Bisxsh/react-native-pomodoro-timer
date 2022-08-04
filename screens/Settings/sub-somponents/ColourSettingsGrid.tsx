@@ -6,6 +6,7 @@ const ColourSettingsGrid = () => {
   return (
     <View style={styles.container}>
       <ColourButton colour="#4A4B4F" />
+      <ColourButton colour="#a0aee7" />
     </View>
   );
 };

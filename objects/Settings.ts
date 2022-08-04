@@ -40,4 +40,4 @@ export const SettingsContext = createContext<ISettingsState>({
   setAppSettings: () => null,
 });
 
-export let appSettings: ISettings = DEFAULT_SETTINGS;
+// export let appSettings: ISettings = DEFAULT_SETTINGS;

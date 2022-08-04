@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -8,7 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { appSettings, DEFAULT_SETTINGS } from "./objects/Settings";
+import {
+  appSettings,
+  DEFAULT_SETTINGS,
+  ISettings,
+  SettingsContext,
+} from "./objects/Settings";
 import Settings from "./screens/Settings/Settings";
 import Timer from "./screens/Timer";
 
@@ -31,19 +36,23 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto"></StatusBar>
-      <SafeAreaView style={styles.container}>
-        <TouchableOpacity
-          onPress={toggleMenu}
-          style={{ alignSelf: "flex-end" }}
-        >
-          <Image source={require("./assets/menu.png")} style={styles.menu} />
-        </TouchableOpacity>
+    <SettingsContext.Provider
+      value={{ setAppSettings: setAppSettings, appSettings: appSetings }}
+    >
+      <View style={styles.container}>
+        <StatusBar style="auto"></StatusBar>
+        <SafeAreaView style={styles.container}>
+          <TouchableOpacity
+            onPress={toggleMenu}
+            style={{ alignSelf: "flex-end" }}
+          >
+            <Image source={require("./assets/menu.png")} style={styles.menu} />
+          </TouchableOpacity>
 
-        {getMainView()}
-      </SafeAreaView>
-    </View>
+          {getMainView()}
+        </SafeAreaView>
+      </View>
+    </SettingsContext.Provider>
   );
 }
 

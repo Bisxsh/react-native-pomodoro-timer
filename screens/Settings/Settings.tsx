@@ -1,6 +1,7 @@
 import { View, StyleSheet, Text } from "react-native";
 import React from "react";
 import NumberSettingsOption from "./sub-somponents/NumberSettingsOption";
+import ColourSettingsGrid from "./sub-somponents/ColourSettingsGrid";
 
 const Settings = (props: any) => {
   const settings = props.appSettings;
@@ -9,7 +10,7 @@ const Settings = (props: any) => {
 
   function getDurationSection() {
     return (
-      <View style={styles.durationSection}>
+      <View style={styles.numberOptionRow}>
         <NumberSettingsOption
           settings={settings}
           setSettings={setSettings}
@@ -41,7 +42,7 @@ const Settings = (props: any) => {
   function getOtherPreferences() {
     return (
       <View>
-        <View style={styles.durationSection}>
+        <View style={styles.numberOptionRow}>
           <NumberSettingsOption
             settings={settings}
             setSettings={setSettings}
@@ -69,12 +70,15 @@ const Settings = (props: any) => {
       <View>{getDurationSection()}</View>
       <Text style={styles.sectionHeading}>GOAL PREFERENCES</Text>
       <View>{getOtherPreferences()}</View>
+
+      <Text style={styles.sectionHeading}>BACKGROUND COLOUR</Text>
+      <ColourSettingsGrid />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  durationSection: {
+  numberOptionRow: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",

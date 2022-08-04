@@ -1,3 +1,5 @@
+import { createContext, Dispatch, SetStateAction } from "react";
+
 export interface ISettings {
   pomodoroTime: number;
   breakTime: number;
@@ -11,6 +13,11 @@ export interface ISettings {
   autostartPomodoro: boolean;
   showNotifications: boolean;
   keepPhoneAwake: boolean;
+}
+
+export interface ISettingsState {
+  appSettings: ISettings;
+  setAppSettings: Dispatch<SetStateAction<ISettings>>;
 }
 
 export const DEFAULT_SETTINGS: ISettings = {
@@ -27,5 +34,10 @@ export const DEFAULT_SETTINGS: ISettings = {
   showNotifications: true,
   keepPhoneAwake: true,
 };
+
+export const SettingsContext = createContext<ISettingsState>({
+  appSettings: DEFAULT_SETTINGS,
+  setAppSettings: () => null,
+});
 
 export let appSettings: ISettings = DEFAULT_SETTINGS;

@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AppSettings } from "./objects/Settings";
+import { appSettings, DEFAULT_SETTINGS } from "./objects/Settings";
 import Settings from "./screens/Settings/Settings";
 import Timer from "./screens/Timer";
 
 export default function App() {
   const [menuActive, setMenuActive] = useState(true);
-  const [appSetings, setAppSettings] = useState(new AppSettings());
+  const [appSetings, setAppSettings] = useState(DEFAULT_SETTINGS);
 
   function getMainView() {
     if (!menuActive)
@@ -23,7 +23,7 @@ export default function App() {
           <Timer />
         </View>
       );
-    return <Settings settings={appSetings} setSettings={setAppSettings} />;
+    return <Settings appSettings={appSetings} setSettings={setAppSettings} />;
   }
 
   function toggleMenu() {

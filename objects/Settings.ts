@@ -1,17 +1,10 @@
-export class AppSettings {
-  settings: ISettings;
-
-  constructor() {
-    this.settings = DEFAULT_SETTINGS;
-  }
-}
-
 export interface ISettings {
   pomodoroTime: number;
   breakTime: number;
   longBreakTime: number;
-  backgroundColor: string;
   dailyGoal: number;
+  longBreakRequirement: number;
+  backgroundColor: string;
   playSound: boolean;
   vibrate: boolean;
   autostartBreaks: boolean;
@@ -24,8 +17,9 @@ export const DEFAULT_SETTINGS: ISettings = {
   pomodoroTime: 25,
   breakTime: 5,
   longBreakTime: 15,
-  backgroundColor: "#4A4B4F",
   dailyGoal: 8,
+  longBreakRequirement: 4,
+  backgroundColor: "#4A4B4F",
   playSound: true,
   vibrate: true,
   autostartBreaks: true,
@@ -33,3 +27,5 @@ export const DEFAULT_SETTINGS: ISettings = {
   showNotifications: true,
   keepPhoneAwake: true,
 };
+
+export let appSettings: ISettings = DEFAULT_SETTINGS;

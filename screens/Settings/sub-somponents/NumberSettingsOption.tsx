@@ -2,10 +2,12 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
 const NumberSettingsOption = (props: any) => {
-  const value = props.value;
+  const displayValue = props.displayValue;
   const setSettings = props.setSettings;
   const attribute = props.attribute;
   const prompt = props.prompt;
+
+  const siblings = props.siblings;
 
   function textChanged(text: string) {
     setSettings((s: any) => {
@@ -16,19 +18,15 @@ const NumberSettingsOption = (props: any) => {
     });
   }
 
-  function submitChange() {
-    // alert(test);
-  }
-
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, siblings == 2 ? styles.large : styles.small]}
+    >
       <TextInput
         keyboardType="number-pad"
         onChangeText={textChanged}
         maxLength={2}
-        value={value}
-        onBlur={submitChange}
-        onSubmitEditing={submitChange}
+        value={"" + displayValue}
         style={styles.value}
       ></TextInput>
       <Text style={styles.prompt}>{prompt}</Text>
@@ -42,15 +40,25 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(52, 52, 52, 0.3)",
     alignSelf: "flex-start",
-    padding: 10,
-    paddingRight: 20,
-    paddingLeft: 20,
+    padding: 20,
+    paddingRight: 30,
+    paddingLeft: 30,
     alignItems: "center",
     justifyContent: "center",
+    margin: 10,
+    borderRadius: 5,
+  },
+
+  small: {
+    minWidth: 100,
+  },
+
+  large: {
+    minWidth: 170,
   },
 
   value: {
-    fontSize: 30,
+    fontSize: 40,
     color: "#fff",
     marginBottom: 5,
   },

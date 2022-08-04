@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -8,18 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  appSettings,
-  DEFAULT_SETTINGS,
-  ISettings,
-  SettingsContext,
-} from "./objects/Settings";
+import { DEFAULT_SETTINGS, SettingsContext } from "./objects/Settings";
 import Settings from "./screens/Settings/Settings";
 import Timer from "./screens/Timer";
 
 export default function App() {
   const [menuActive, setMenuActive] = useState(true);
-  const [appSetings, setAppSettings] = useState(DEFAULT_SETTINGS);
+  const [appSettings, setAppSettings] = useState(DEFAULT_SETTINGS);
 
   function getMainView() {
     if (!menuActive)
@@ -28,7 +23,7 @@ export default function App() {
           <Timer />
         </View>
       );
-    return <Settings appSettings={appSetings} setSettings={setAppSettings} />;
+    return <Settings appSettings={appSettings} setSettings={setAppSettings} />;
   }
 
   function toggleMenu() {
@@ -37,9 +32,14 @@ export default function App() {
 
   return (
     <SettingsContext.Provider
-      value={{ setAppSettings: setAppSettings, appSettings: appSetings }}
+      value={{ setAppSettings: setAppSettings, appSettings: appSettings }}
     >
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: appSettings.backgroundColor },
+        ]}
+      >
         <StatusBar style="auto"></StatusBar>
         <SafeAreaView style={styles.container}>
           <TouchableOpacity
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#4A4B4F",
   },
 
   menu: {

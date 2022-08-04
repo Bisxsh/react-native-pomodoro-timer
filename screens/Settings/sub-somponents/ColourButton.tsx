@@ -11,7 +11,12 @@ const ColourButton = (props: any) => {
   }
 
   function setActive() {
-    console.log();
+    settingsObj.setAppSettings((s) => {
+      return {
+        ...s,
+        backgroundColor: props.colour,
+      };
+    });
   }
 
   function getIndicator() {

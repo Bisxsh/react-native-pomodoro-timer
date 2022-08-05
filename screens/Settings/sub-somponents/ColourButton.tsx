@@ -33,7 +33,7 @@ const ColourButton = (props: any) => {
       justifyContent: "center",
       alignItems: "center",
       borderRadius: 5,
-      margin: 5,
+      margin: 10,
     },
   });
 

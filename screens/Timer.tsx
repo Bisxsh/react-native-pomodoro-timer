@@ -2,6 +2,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -123,6 +124,10 @@ const Timer = () => {
     start();
   };
 
+  const cycleMode = () => {
+    setMode((m) => (m + 1) % 3);
+  };
+
   const resetTimer = () => {
     pauseTimer();
     setPaused(false);
@@ -132,23 +137,22 @@ const Timer = () => {
   function CircularProgressBar() {
     return (
       <View>
-        <TouchableWithoutFeedback>
-          <View style={styles.timerContainer}>
-            <CircularProgress
-              value={timeRemaining}
-              radius={120}
-              maxValue={100}
-              initialValue={
-                timerActive ? timeRemaining + 1 : paused ? timeRemaining : 0
-              }
-              activeStrokeColor={"white"}
-              inActiveStrokeColor={"black"}
-              activeStrokeWidth={15}
-              inActiveStrokeWidth={15}
-              showProgressValue={false}
-            />
-          </View>
-        </TouchableWithoutFeedback>
+        <View style={styles.timerContainer}>
+          <CircularProgress
+            value={timeRemaining}
+            radius={120}
+            maxValue={100}
+            initialValue={
+              timerActive ? timeRemaining + 1 : paused ? timeRemaining : 0
+            }
+            activeStrokeColor={"white"}
+            inActiveStrokeColor={"black"}
+            activeStrokeWidth={15}
+            inActiveStrokeWidth={15}
+            showProgressValue={false}
+          />
+        </View>
+
         <TouchableWithoutFeedback
           onPress={handleOnClick}
           onLongPress={resetTimer}
@@ -171,9 +175,17 @@ const Timer = () => {
     <View>
       <CircularProgressBar />
       <View style={styles.indicatorContainer}>{indicators}</View>
-      <Text style={styles.timerText}>
-        {Modes[mode].replace("_", " ")} - {timeRemainingText}
-      </Text>
+      <TouchableOpacity onPress={cycleMode}>
+        <View style={styles.textContainer}>
+          <Image
+            source={require("../assets/scroll.png")}
+            style={styles.textScroll}
+          />
+          <Text style={styles.timerText}>
+            {Modes[mode].replace("_", " ")} - {timeRemainingText}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -198,13 +210,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  textContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 50,
+  },
+
   timerText: {
     color: "#a3a6b3",
     fontSize: 12,
+  },
 
-    justifyContent: "center",
-    alignSelf: "center",
-    marginTop: 50,
+  textScroll: {
+    transform: [{ rotate: "90deg" }],
+    aspectRatio: 1,
+    width: 12,
+    marginRight: 2,
   },
 
   white: {

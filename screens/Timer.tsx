@@ -4,12 +4,14 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Vibration,
   View,
 } from "react-native";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import CircularProgress, {
   CircularProgressBase,
 } from "react-native-circular-progress-indicator";
+import { SettingsContext } from "../objects/Settings";
 
 enum Modes {
   POMODORO,
@@ -29,8 +31,9 @@ const Timer = () => {
     getProgressIndicators()
   );
   const [pomodorosCompleted, setPomodorosCompleted] = useState(0);
-
   const [timerId, setTimerId] = useState<any>(null);
+
+  const settingsObj = useContext(SettingsContext);
 
   function getProgressIndicators() {
     let indicators: ReactElement[] = [];
@@ -84,7 +87,7 @@ const Timer = () => {
     setTimeRemainingText(getTimeRemainingText());
   }, [timeRemaining]);
 
-  function start() {
+  function startTimer() {
     if (timeRemaining == 0) {
       resetTimer();
     } else {
@@ -108,6 +111,7 @@ const Timer = () => {
       if (time <= 0) {
         resetTimer();
         setMode(getNextMode());
+        if (settingsObj.appSettings.vibrate) Vibration.vibrate(600);
         window.clearInterval(id);
         return;
       }
@@ -121,7 +125,7 @@ const Timer = () => {
       pauseTimer();
       return;
     }
-    start();
+    startTimer();
   };
 
   const cycleMode = () => {

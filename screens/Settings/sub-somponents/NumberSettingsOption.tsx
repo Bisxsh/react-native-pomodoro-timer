@@ -38,7 +38,7 @@ export default NumberSettingsOption;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(52, 52, 52, 0.3)",
+    backgroundColor: "rgba(52, 52, 52, 0.5)",
     alignSelf: "flex-start",
     padding: 20,
     paddingRight: 30,

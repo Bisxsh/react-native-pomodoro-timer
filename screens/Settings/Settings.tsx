@@ -73,8 +73,12 @@ const Settings = (props: any) => {
 
   function getOtherPreferences() {
     return (
-      <View>
+      <View style={styles.otherPreferences}>
         <BooleanSettingsOption attribute="vibrate" />
+        <BooleanSettingsOption attribute="autostartBreaks" />
+        <BooleanSettingsOption attribute="autostartPomodoro" />
+        <BooleanSettingsOption attribute="showNotifications" />
+        <BooleanSettingsOption attribute="keepPhoneAwake" />
       </View>
     );
   }
@@ -113,14 +117,16 @@ const styles = StyleSheet.create({
   },
 
   colourGrid: {
-    backgroundColor: "rgba(52, 52, 52, 0.3)",
+    backgroundColor: "rgba(52, 52, 52, 0.5)",
     margin: 10,
     padding: 10,
     height: "auto",
     borderRadius: 5,
   },
 
-  otherPreferences: {},
+  otherPreferences: {
+    margin: 5,
+  },
 });
 
 export default Settings;

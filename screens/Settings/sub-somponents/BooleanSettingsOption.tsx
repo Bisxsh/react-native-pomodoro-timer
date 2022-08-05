@@ -5,6 +5,7 @@ import Indicator from "./Indicator";
 
 const BooleanSettingsOption = ({ attribute }: any) => {
   const { appSettings, setAppSettings } = useContext(SettingsContext);
+  const label = attribute.replace(/([A-Z])/g, " $1").trim();
 
   function handleClick(value: boolean) {
     setAppSettings((s) => {
@@ -37,7 +38,7 @@ const BooleanSettingsOption = ({ attribute }: any) => {
           </View>
         </TouchableOpacity>
       </View>
-      <Text style={styles.label}>{attribute}</Text>
+      <Text style={styles.label}>{label}</Text>
     </View>
   );
 };
@@ -46,14 +47,14 @@ export default BooleanSettingsOption;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(52, 52, 52, 0.3)",
+    backgroundColor: "rgba(52, 52, 52, 0.5)",
     width: "auto",
     padding: 20,
     paddingRight: 30,
     paddingLeft: 30,
     alignItems: "center",
     justifyContent: "center",
-    margin: 10,
+    margin: 5,
     borderRadius: 5,
   },
 

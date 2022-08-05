@@ -24,16 +24,10 @@ const ColourButton = (props: any) => {
     return (
       <View style={styles.selected}>
         <View
-          style={[
-            styles.tickLeftDash,
-            { backgroundColor: getBackgroundColor() },
-          ]}
+          style={[styles.tickLeftDash, { backgroundColor: props.colour }]}
         ></View>
         <View
-          style={[
-            styles.tickRightDash,
-            { backgroundColor: getBackgroundColor() },
-          ]}
+          style={[styles.tickRightDash, { backgroundColor: props.colour }]}
         ></View>
       </View>
     );
@@ -42,10 +36,12 @@ const ColourButton = (props: any) => {
   const styles = StyleSheet.create({
     container: {
       aspectRatio: 1,
-      width: 50,
+      height: 50,
       position: "relative",
       justifyContent: "center",
       alignItems: "center",
+      borderRadius: 5,
+      margin: 5,
     },
 
     selected: {

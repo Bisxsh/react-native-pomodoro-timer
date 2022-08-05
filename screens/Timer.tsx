@@ -125,7 +125,9 @@ const Timer = () => {
   };
 
   const cycleMode = () => {
+    if (timerActive) return;
     setMode((m) => (m + 1) % 3);
+    resetTimer();
   };
 
   const resetTimer = () => {
@@ -177,10 +179,12 @@ const Timer = () => {
       <View style={styles.indicatorContainer}>{indicators}</View>
       <TouchableOpacity onPress={cycleMode}>
         <View style={styles.textContainer}>
-          <Image
-            source={require("../assets/scroll.png")}
-            style={styles.textScroll}
-          />
+          {!timerActive && (
+            <Image
+              source={require("../assets/scroll.png")}
+              style={styles.textScroll}
+            />
+          )}
           <Text style={styles.timerText}>
             {Modes[mode].replace("_", " ")} - {timeRemainingText}
           </Text>

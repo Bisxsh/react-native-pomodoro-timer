@@ -2,29 +2,34 @@ import { StyleSheet, View } from "react-native";
 import React, { useContext } from "react";
 import { SettingsContext } from "../../../objects/Settings";
 
-const TickIndicator = () => {
+const Indicator = ({ large, isTick }: any) => {
   const settingsObj = useContext(SettingsContext);
   const backgroundColor = settingsObj.appSettings.backgroundColor;
 
   return (
-    <View style={styles.selected}>
+    <View style={[styles.container, { width: large ? 40 : 30 }]}>
       <View
-        style={[styles.tickLeftDash, { backgroundColor: backgroundColor }]}
+        style={[
+          isTick ? styles.tickLeftDash : styles.crossLeftDash,
+          { backgroundColor: backgroundColor },
+        ]}
       ></View>
       <View
-        style={[styles.tickRightDash, { backgroundColor: backgroundColor }]}
+        style={[
+          isTick ? styles.tickRightDash : styles.crossRightDash,
+          { backgroundColor: backgroundColor },
+        ]}
       ></View>
     </View>
   );
 };
 
-export default TickIndicator;
+export default Indicator;
 
 const styles = StyleSheet.create({
-  selected: {
+  container: {
     aspectRatio: 1,
     borderRadius: 100,
-    width: 30,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
@@ -40,13 +45,29 @@ const styles = StyleSheet.create({
 
   tickRightDash: {
     width: 2,
-    height: 10,
+    height: 12,
     justifyContent: "center",
     transform: [{ rotate: "45deg" }, { translateX: 2 }],
     position: "absolute",
   },
+
+  crossLeftDash: {
+    width: 2,
+    height: 12,
+    justifyContent: "center",
+    transform: [{ rotate: "135deg" }],
+    position: "absolute",
+  },
+
+  crossRightDash: {
+    width: 2,
+    height: 12,
+    justifyContent: "center",
+    transform: [{ rotate: "45deg" }],
+    position: "absolute",
+  },
 });
 
-TickIndicator.defaultProps = {
+Indicator.defaultProps = {
   colour: "white",
 };

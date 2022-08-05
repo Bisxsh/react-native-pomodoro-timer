@@ -8,6 +8,7 @@ import {
 import React from "react";
 import NumberSettingsOption from "./sub-somponents/NumberSettingsOption";
 import ColourSettingsGrid from "./sub-somponents/ColourSettingsGrid";
+import BooleanSettingsOption from "./sub-somponents/BooleanSettingsOption";
 
 const Settings = (props: any) => {
   const settings = props.appSettings;
@@ -45,9 +46,9 @@ const Settings = (props: any) => {
     );
   }
 
-  function getOtherPreferences() {
+  function getGoalPreferences() {
     return (
-      <ScrollView>
+      <View>
         <View style={styles.numberOptionRow}>
           <NumberSettingsOption
             settings={settings}
@@ -66,16 +67,29 @@ const Settings = (props: any) => {
             siblings={2}
           />
         </View>
-      </ScrollView>
+      </View>
+    );
+  }
+
+  function getOtherPreferences() {
+    return (
+      <View>
+        <BooleanSettingsOption />
+        <BooleanSettingsOption />
+        <BooleanSettingsOption />
+        <BooleanSettingsOption />
+        <BooleanSettingsOption />
+        <BooleanSettingsOption />
+      </View>
     );
   }
 
   return (
-    <View>
+    <ScrollView>
       <Text style={styles.sectionHeading}>Duration</Text>
       <View>{getDurationSection()}</View>
       <Text style={styles.sectionHeading}>Goal Preferences</Text>
-      <View>{getOtherPreferences()}</View>
+      <View>{getGoalPreferences()}</View>
 
       <Text style={styles.sectionHeading}>Background Colour</Text>
       <View style={styles.colourGrid}>
@@ -83,8 +97,8 @@ const Settings = (props: any) => {
       </View>
 
       <Text style={styles.sectionHeading}>Other Preferences</Text>
-      <View style={styles.otherPreferences}></View>
-    </View>
+      <View style={styles.otherPreferences}>{getOtherPreferences()}</View>
+    </ScrollView>
   );
 };
 

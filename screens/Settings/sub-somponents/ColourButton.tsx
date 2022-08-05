@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useContext } from "react";
 import { SettingsContext } from "../../../objects/Settings";
+import TickIndicator from "./TickIndicator";
 
 const ColourButton = (props: any) => {
   const settingsObj = useContext(SettingsContext);
@@ -21,16 +22,7 @@ const ColourButton = (props: any) => {
 
   function getIndicator() {
     if (!isActive) return;
-    return (
-      <View style={styles.selected}>
-        <View
-          style={[styles.tickLeftDash, { backgroundColor: props.colour }]}
-        ></View>
-        <View
-          style={[styles.tickRightDash, { backgroundColor: props.colour }]}
-        ></View>
-      </View>
-    );
+    return <TickIndicator bgColour={getBackgroundColor()} />;
   }
 
   const styles = StyleSheet.create({
@@ -42,31 +34,6 @@ const ColourButton = (props: any) => {
       alignItems: "center",
       borderRadius: 5,
       margin: 5,
-    },
-
-    selected: {
-      aspectRatio: 1,
-      borderRadius: 100,
-      width: 30,
-      backgroundColor: "white",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-
-    tickLeftDash: {
-      width: 2,
-      height: 5,
-      justifyContent: "center",
-      transform: [{ rotate: "135deg" }, { translateX: 5 }],
-      position: "absolute",
-    },
-
-    tickRightDash: {
-      width: 2,
-      height: 10,
-      justifyContent: "center",
-      transform: [{ rotate: "45deg" }, { translateX: 2 }],
-      position: "absolute",
     },
   });
 

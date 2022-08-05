@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useContext } from "react";
 import { SettingsContext } from "../../../objects/Settings";
-import TickIndicator from "./TickIndicator";
+import Indicator from "./Indicator";
 
 const ColourButton = (props: any) => {
   const settingsObj = useContext(SettingsContext);
@@ -22,7 +22,7 @@ const ColourButton = (props: any) => {
 
   function getIndicator() {
     if (!isActive) return;
-    return <TickIndicator />;
+    return <Indicator large={false} isTick={true} />;
   }
 
   const styles = StyleSheet.create({

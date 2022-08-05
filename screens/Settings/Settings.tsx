@@ -9,8 +9,6 @@ import React from "react";
 import NumberSettingsOption from "./sub-somponents/NumberSettingsOption";
 import ColourSettingsGrid from "./sub-somponents/ColourSettingsGrid";
 import BooleanSettingsOption from "./sub-somponents/BooleanSettingsOption";
-import CrossIndicator from "./sub-somponents/CrossIndicator";
-import TickIndicator from "./sub-somponents/TickIndicator";
 
 const Settings = (props: any) => {
   const settings = props.appSettings;
@@ -76,12 +74,7 @@ const Settings = (props: any) => {
   function getOtherPreferences() {
     return (
       <View>
-        <BooleanSettingsOption />
-        <BooleanSettingsOption />
-        <BooleanSettingsOption />
-        <BooleanSettingsOption />
-        <BooleanSettingsOption />
-        <BooleanSettingsOption />
+        <BooleanSettingsOption attribute="vibrate" />
       </View>
     );
   }
@@ -113,7 +106,7 @@ const styles = StyleSheet.create({
 
   sectionHeading: {
     fontSize: 10,
-    color: "#a3a6b3",
+    color: "#969696",
     alignSelf: "center",
     margin: 10,
     textTransform: "uppercase",

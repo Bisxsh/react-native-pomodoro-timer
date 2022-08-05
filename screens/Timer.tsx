@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 70,
   },
 
   timerText: {
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
 
   indicator: {
     color: "#6a6c74",
-    fontSize: 20,
+    fontSize: 35,
     margin: 3,
   },
 
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 0,
   },
 });
 

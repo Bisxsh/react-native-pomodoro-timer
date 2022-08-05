@@ -100,7 +100,7 @@ const Timer = () => {
     setPaused(true);
   }
 
-  function tick() {
+  async function tick() {
     setTimerActive(true);
     let time = timeRemaining;
     let id = window.setInterval(function () {

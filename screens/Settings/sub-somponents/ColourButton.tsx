@@ -22,7 +22,7 @@ const ColourButton = (props: any) => {
 
   function getIndicator() {
     if (!isActive) return;
-    return <TickIndicator bgColour={getBackgroundColor()} />;
+    return <TickIndicator />;
   }
 
   const styles = StyleSheet.create({

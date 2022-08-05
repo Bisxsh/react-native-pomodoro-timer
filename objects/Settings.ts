@@ -26,7 +26,7 @@ export const DEFAULT_SETTINGS: ISettings = {
   longBreakTime: 15,
   dailyGoal: 8,
   longBreakRequirement: 4,
-  backgroundColor: "#4A4B4F",
+  backgroundColor: "hsl(228, 3%, 30%)",
   playSound: true,
   vibrate: true,
   autostartBreaks: true,
@@ -39,5 +39,3 @@ export const SettingsContext = createContext<ISettingsState>({
   appSettings: DEFAULT_SETTINGS,
   setAppSettings: () => null,
 });
-
-// export let appSettings: ISettings = DEFAULT_SETTINGS;

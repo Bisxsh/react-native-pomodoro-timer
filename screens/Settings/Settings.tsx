@@ -9,6 +9,8 @@ import React from "react";
 import NumberSettingsOption from "./sub-somponents/NumberSettingsOption";
 import ColourSettingsGrid from "./sub-somponents/ColourSettingsGrid";
 import BooleanSettingsOption from "./sub-somponents/BooleanSettingsOption";
+import CrossIndicator from "./sub-somponents/CrossIndicator";
+import TickIndicator from "./sub-somponents/TickIndicator";
 
 const Settings = (props: any) => {
   const settings = props.appSettings;

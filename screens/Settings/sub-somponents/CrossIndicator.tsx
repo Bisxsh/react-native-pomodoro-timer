@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import React, { useContext } from "react";
 import { SettingsContext } from "../../../objects/Settings";
 
-const TickIndicator = () => {
+const CrossIndicator = () => {
   const settingsObj = useContext(SettingsContext);
   const backgroundColor = settingsObj.appSettings.backgroundColor;
 
@@ -18,7 +18,7 @@ const TickIndicator = () => {
   );
 };
 
-export default TickIndicator;
+export default CrossIndicator;
 
 const styles = StyleSheet.create({
   selected: {
@@ -32,21 +32,17 @@ const styles = StyleSheet.create({
 
   tickLeftDash: {
     width: 2,
-    height: 5,
+    height: 12,
     justifyContent: "center",
-    transform: [{ rotate: "135deg" }, { translateX: 5 }],
+    transform: [{ rotate: "135deg" }],
     position: "absolute",
   },
 
   tickRightDash: {
     width: 2,
-    height: 10,
+    height: 12,
     justifyContent: "center",
-    transform: [{ rotate: "45deg" }, { translateX: 2 }],
+    transform: [{ rotate: "45deg" }],
     position: "absolute",
   },
 });
-
-TickIndicator.defaultProps = {
-  colour: "white",
-};

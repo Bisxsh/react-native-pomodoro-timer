@@ -13,7 +13,7 @@ import Settings from "./screens/Settings/Settings";
 import Timer from "./screens/Timer";
 
 export default function App() {
-  const [menuActive, setMenuActive] = useState(true);
+  const [menuActive, setMenuActive] = useState(false);
   const [appSettings, setAppSettings] = useState(DEFAULT_SETTINGS);
 
   function getMainView() {

@@ -8,10 +8,9 @@ import {
   View,
 } from "react-native";
 import React, { ReactElement, useContext, useEffect, useState } from "react";
-import CircularProgress, {
-  CircularProgressBase,
-} from "react-native-circular-progress-indicator";
+import CircularProgress from "react-native-circular-progress-indicator";
 import { SettingsContext } from "../objects/Settings";
+import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
 
 enum Modes {
   POMODORO,
@@ -22,7 +21,7 @@ enum Modes {
 const Timer = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(100);
+  const [timeRemaining, setTimeRemaining] = useState(8);
   const [timeRemainingText, setTimeRemainingText] = useState(
     getTimeRemainingText()
   );
@@ -88,6 +87,7 @@ const Timer = () => {
   }, [timeRemaining]);
 
   function startTimer() {
+    if (settingsObj.appSettings.keepPhoneAwake) activateKeepAwake();
     if (timeRemaining == 0) {
       resetTimer();
     } else {
@@ -100,6 +100,7 @@ const Timer = () => {
       window.clearInterval(timerId);
       setTimerId(null);
     }
+    if (settingsObj.appSettings.keepPhoneAwake) deactivateKeepAwake();
     setTimerActive(false);
     setPaused(true);
   }
@@ -137,7 +138,7 @@ const Timer = () => {
   const resetTimer = () => {
     pauseTimer();
     setPaused(false);
-    setTimeRemaining(100);
+    setTimeRemaining(8);
   };
 
   function CircularProgressBar() {

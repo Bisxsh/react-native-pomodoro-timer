@@ -21,9 +21,12 @@ enum Modes {
 }
 
 const Timer = () => {
+  const settingsObj = useContext(SettingsContext);
   const [timerActive, setTimerActive] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(8);
+  const [timeRemaining, setTimeRemaining] = useState(
+    getTimeInSeconds(settingsObj.appSettings.pomodoroTime)
+  );
   const [timeRemainingText, setTimeRemainingText] = useState(
     getTimeRemainingText()
   );
@@ -34,7 +37,28 @@ const Timer = () => {
   const [pomodorosCompleted, setPomodorosCompleted] = useState(0);
   const [timerId, setTimerId] = useState<any>(null);
 
-  const settingsObj = useContext(SettingsContext);
+  function getTimeInSeconds(mins: number) {
+    return mins * 60;
+  }
+
+  function getTimerMaxValue() {
+    let mins: number;
+    switch (mode) {
+      default:
+      case Modes.POMODORO:
+        mins = settingsObj.appSettings.pomodoroTime;
+        break;
+
+      case Modes.BREAK:
+        mins = settingsObj.appSettings.breakTime;
+        break;
+
+      case Modes.LONG_BREAK:
+        mins = settingsObj.appSettings.longBreakTime;
+        break;
+    }
+    return getTimeInSeconds(mins);
+  }
 
   function getProgressIndicators() {
     let indicators: ReactElement[] = [];
@@ -88,6 +112,10 @@ const Timer = () => {
     setTimeRemainingText(getTimeRemainingText());
   }, [timeRemaining]);
 
+  useEffect(() => {
+    resetTimer(false);
+  }, [mode]);
+
   function startTimer() {
     if (settingsObj.appSettings.keepPhoneAwake) activateKeepAwake();
     if (timeRemaining == 0) {
@@ -131,18 +159,22 @@ const Timer = () => {
   const cycleMode = () => {
     if (timerActive) return;
     setMode((m) => (m + 1) % 3);
-    resetTimer();
   };
 
-  const resetTimer = () => {
+  const resetTimer = (start: boolean = true) => {
     pauseTimer();
     setPaused(false);
-    setTimeRemaining(8);
-    if (mode == Modes.POMODORO && settingsObj.appSettings.autostartBreaks) {
+    console.log(mode);
+    setTimeRemaining(getTimerMaxValue());
+    if (
+      mode == Modes.POMODORO &&
+      settingsObj.appSettings.autostartBreaks &&
+      start
+    ) {
       startTimer();
       return;
     }
-    if (settingsObj.appSettings.autostartPomodoro) startTimer();
+    if (settingsObj.appSettings.autostartPomodoro && start) startTimer();
   };
 
   function CircularProgressBar() {
@@ -152,7 +184,7 @@ const Timer = () => {
           <CircularProgress
             value={timeRemaining}
             radius={120}
-            maxValue={100}
+            maxValue={getTimerMaxValue()}
             initialValue={
               timerActive ? timeRemaining + 1 : paused ? timeRemaining : 0
             }
@@ -166,7 +198,7 @@ const Timer = () => {
 
         <TouchableWithoutFeedback
           onPress={handleOnClick}
-          onLongPress={resetTimer}
+          onLongPress={() => resetTimer(false)}
           style={{ position: "absolute" }}
         >
           <View style={styles.playContainer}>

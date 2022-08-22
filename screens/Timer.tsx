@@ -24,16 +24,8 @@ const Timer = () => {
   const settingsObj = useContext(SettingsContext);
   const [timerActive, setTimerActive] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(
-    getTimeInSeconds(settingsObj.appSettings.pomodoroTime)
-  );
-  const [timeRemainingText, setTimeRemainingText] = useState(
-    getTimeRemainingText()
-  );
+  const [timeRemaining, setTimeRemaining] = useState(8);
   const [mode, setMode] = useState(Modes.POMODORO);
-  const [indicators, setIndicators] = useState<ReactElement[]>(
-    getProgressIndicators()
-  );
   const [pomodorosCompleted, setPomodorosCompleted] = useState(0);
   const [timerId, setTimerId] = useState<any>(null);
 
@@ -57,6 +49,7 @@ const Timer = () => {
         mins = settingsObj.appSettings.longBreakTime;
         break;
     }
+    console.log("Mins: " + mins);
     return getTimeInSeconds(mins);
   }
 
@@ -94,7 +87,6 @@ const Timer = () => {
     if (mode !== Modes.POMODORO) return Modes.POMODORO;
 
     setPomodorosCompleted((i) => i + 1);
-    setIndicators(getProgressIndicators());
 
     if (pomodorosCompleted % 4 === 0 && pomodorosCompleted !== 0)
       return Modes.LONG_BREAK;
@@ -107,14 +99,6 @@ const Timer = () => {
       Math.floor(timeRemaining / 60) + ":" + (seconds < 10 ? "0" : "") + seconds
     );
   }
-
-  useEffect(() => {
-    setTimeRemainingText(getTimeRemainingText());
-  }, [timeRemaining]);
-
-  useEffect(() => {
-    resetTimer(false);
-  }, [mode]);
 
   function startTimer() {
     if (settingsObj.appSettings.keepPhoneAwake) activateKeepAwake();
@@ -156,12 +140,16 @@ const Timer = () => {
     startTimer();
   };
 
+  useEffect(() => {
+    resetTimer(false);
+  }, [mode]);
+
   const cycleMode = () => {
     if (timerActive) return;
     setMode((m) => (m + 1) % 3);
   };
 
-  const resetTimer = (start: boolean = true) => {
+  const resetTimer = (canStart: boolean = true) => {
     pauseTimer();
     setPaused(false);
     console.log(mode);
@@ -169,12 +157,12 @@ const Timer = () => {
     if (
       mode == Modes.POMODORO &&
       settingsObj.appSettings.autostartBreaks &&
-      start
+      canStart
     ) {
       startTimer();
       return;
     }
-    if (settingsObj.appSettings.autostartPomodoro && start) startTimer();
+    if (settingsObj.appSettings.autostartPomodoro && canStart) startTimer();
   };
 
   function CircularProgressBar() {
@@ -217,7 +205,7 @@ const Timer = () => {
   return (
     <View>
       <CircularProgressBar />
-      <View style={styles.indicatorContainer}>{indicators}</View>
+      <View style={styles.indicatorContainer}>{getProgressIndicators()}</View>
       <TouchableOpacity onPress={cycleMode}>
         <View style={styles.textContainer}>
           {!timerActive && (
@@ -227,7 +215,7 @@ const Timer = () => {
             />
           )}
           <Text style={styles.timerText}>
-            {Modes[mode].replace("_", " ")} - {timeRemainingText}
+            {Modes[mode].replace("_", " ")} - {getTimeRemainingText()}
           </Text>
         </View>
       </TouchableOpacity>

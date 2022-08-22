@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  useWindowDimensions,
   Vibration,
   View,
 } from "react-native";
@@ -11,6 +12,7 @@ import React, { ReactElement, useContext, useEffect, useState } from "react";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { SettingsContext } from "../objects/Settings";
 import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
+import useInterval from "../hooks/useInterval";
 
 enum Modes {
   POMODORO,
@@ -65,12 +67,12 @@ const Timer = () => {
   }
 
   function getNextMode() {
-    if (mode != Modes.POMODORO) return Modes.POMODORO;
+    if (mode !== Modes.POMODORO) return Modes.POMODORO;
 
     setPomodorosCompleted((i) => i + 1);
     setIndicators(getProgressIndicators());
 
-    if (pomodorosCompleted % 4 == 0 && pomodorosCompleted != 0)
+    if (pomodorosCompleted % 4 === 0 && pomodorosCompleted !== 0)
       return Modes.LONG_BREAK;
     return Modes.BREAK;
   }
@@ -91,9 +93,10 @@ const Timer = () => {
     if (timeRemaining == 0) {
       resetTimer();
     } else {
-      tick();
+      setTimerActive(true);
     }
   }
+  const { width, height, scale, fontScale } = useWindowDimensions();
 
   function pauseTimer() {
     if (timerId != null) {
@@ -105,21 +108,17 @@ const Timer = () => {
     setPaused(true);
   }
 
-  async function tick() {
-    setTimerActive(true);
-    let time = timeRemaining;
-    let id = window.setInterval(function () {
-      if (time <= 0) {
-        resetTimer();
-        setMode(getNextMode());
-        if (settingsObj.appSettings.vibrate) Vibration.vibrate(600);
-        window.clearInterval(id);
-        return;
-      }
-      setTimeRemaining(time--);
-    }, 1000);
-    setTimerId(id);
-  }
+  useInterval(() => {
+    if (!timerActive) return;
+    if (timeRemaining <= 1) {
+      setMode(getNextMode());
+      if (settingsObj.appSettings.vibrate) Vibration.vibrate(600);
+      window.clearInterval(timerId);
+      resetTimer();
+      return;
+    }
+    setTimeRemaining(timeRemaining - 1);
+  }, 1000);
 
   const handleOnClick = () => {
     if (timerActive) {
@@ -139,6 +138,11 @@ const Timer = () => {
     pauseTimer();
     setPaused(false);
     setTimeRemaining(8);
+    if (mode == Modes.POMODORO && settingsObj.appSettings.autostartBreaks) {
+      startTimer();
+      return;
+    }
+    if (settingsObj.appSettings.autostartPomodoro) startTimer();
   };
 
   function CircularProgressBar() {

@@ -87,8 +87,8 @@ const Settings = (props: any) => {
     <ScrollView>
       <Text style={styles.sectionHeading}>Duration</Text>
       <View>{getDurationSection()}</View>
-      <Text style={styles.sectionHeading}>Goal Preferences</Text>
-      <View>{getGoalPreferences()}</View>
+      {/* <Text style={styles.sectionHeading}>Goal Preferences</Text>
+      <View>{getGoalPreferences()}</View> */}
 
       <Text style={styles.sectionHeading}>Background Colour</Text>
       <View style={styles.colourGrid}>

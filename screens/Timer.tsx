@@ -75,11 +75,11 @@ const Timer = () => {
           .
         </Text>
       );
-      if (i == 3) {
+      if ((i + 1) % 4 == 0) {
         indicators.push(
           <Text
             style={[styles.indicator, styles.hidden]}
-            key={`indicatorBlank`}
+            key={`indicatorBlank${i}`}
           >
             .
           </Text>
@@ -292,6 +292,7 @@ const styles = StyleSheet.create({
   indicatorContainer: {
     flexDirection: "row",
     alignItems: "center",
+    paddingLeft: 20,
     justifyContent: "center",
     marginTop: 0,
   },

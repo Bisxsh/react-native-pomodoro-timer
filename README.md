@@ -1,6 +1,8 @@
 # react-native-pomodoro-timer
 A simple Pomodoro app I made when learning react native. Design inspired by the [Pomodoro Timer app by AppFx](https://play.google.com/store/apps/details?id=com.pomodrone.app&hl=en_GB&gl=US)
 
+I also created this app using flutter (check it out [here](https://github.com/Bisxsh/flutter-pomodoro-timer) 😉) so I could compare and contrast the developer experience between the two cross-platform mobile frameworks.  
+
 # How to run using npm
 ```
 # clone the project and cd into it
